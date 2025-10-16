@@ -22,7 +22,21 @@ Instead of waiting for breakdowns (reactive) or servicing on fixed schedules (pr
 - 📊 Real-time charts
 - ⚙️ Configurable thresholds
 
-**Total Cost: ~₹1,135** | **Industry Impact: Reduced downtime & costs**
+```
+                    Arduino Uno R3
+                  ┌─────────────────┐
+                  │                 │
+    DS18B20       │  Digital Pin 2  │────── DATA (with 4.7kΩ to 5V)
+                  │  5V             │────── VCC (both sensors)
+                  │  GND            │────── GND (both sensors)
+    Sound Sensor  │  Analog Pin A0  │────── A0
+                  │                 │
+                  └─────────────────┘
+                          │
+                          │ USB Cable
+                          ↓
+                      Computer
+```
 
 ---
 
