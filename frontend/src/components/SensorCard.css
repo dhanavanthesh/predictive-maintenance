@@ -1,0 +1,103 @@
+.sensor-card {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 1.5rem;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.sensor-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.sensor-card.alert {
+  border-color: #fbbf24;
+  box-shadow: 0 0 20px rgba(251, 191, 36, 0.3);
+  animation: alertPulse 2s infinite;
+}
+
+@keyframes alertPulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(251, 191, 36, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(251, 191, 36, 0.5);
+  }
+}
+
+.sensor-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.sensor-icon {
+  font-size: 2rem;
+}
+
+.sensor-card-header h3 {
+  font-size: 1.1rem;
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+.sensor-value {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin: 1.5rem 0;
+}
+
+.sensor-value .value {
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.sensor-value .unit {
+  font-size: 1.5rem;
+  opacity: 0.7;
+}
+
+.alert-banner {
+  background: rgba(251, 191, 36, 0.2);
+  border: 1px solid rgba(251, 191, 36, 0.4);
+  border-radius: 8px;
+  padding: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: #fbbf24;
+  font-weight: 500;
+  margin-top: 1rem;
+}
+
+.alert-icon {
+  font-size: 1.2rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .sensor-card {
+    padding: 1.25rem;
+  }
+
+  .sensor-value .value {
+    font-size: 2.5rem;
+  }
+
+  .sensor-value .unit {
+    font-size: 1.25rem;
+  }
+
+  .alert-banner {
+    font-size: 0.85rem;
+    padding: 0.6rem;
+  }
+}
