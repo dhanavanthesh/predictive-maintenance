@@ -1,0 +1,248 @@
+.info-panel {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 0 0 16px 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.info-toggle-btn {
+  width: 100%;
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.info-toggle-btn:hover {
+  background: linear-gradient(135deg, #5568d3 0%, #65408b 100%);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.info-icon {
+  font-size: 1.5rem;
+}
+
+.info-text {
+  flex: 1;
+  text-align: left;
+}
+
+.arrow {
+  font-size: 0.8rem;
+  transition: transform 0.3s ease;
+}
+
+.arrow.up {
+  transform: rotate(180deg);
+}
+
+.info-content {
+  padding: 2rem;
+  background: white;
+  color: #333;
+  animation: slideDown 0.4s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.info-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.info-section {
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 12px;
+  border-left: 4px solid #667eea;
+}
+
+.info-section.highlight {
+  background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+  border-left: 4px solid #764ba2;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.title-icon {
+  font-size: 1.8rem;
+}
+
+.section-title h3 {
+  margin: 0;
+  color: #333;
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.info-section p {
+  margin: 0 0 1rem 0;
+  line-height: 1.7;
+  color: #495057;
+  font-size: 1rem;
+}
+
+.info-section p:last-child {
+  margin-bottom: 0;
+}
+
+.info-section ul {
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+}
+
+.info-section li {
+  margin-bottom: 0.75rem;
+  line-height: 1.6;
+  color: #495057;
+}
+
+.info-section li strong {
+  color: #333;
+}
+
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.benefit-card {
+  background: white;
+  padding: 1rem;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.benefit-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
+}
+
+.benefit-icon {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.benefit-card strong {
+  display: block;
+  color: #333;
+  font-size: 0.95rem;
+  margin-bottom: 0.35rem;
+}
+
+.benefit-card p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #6c757d;
+}
+
+.tech-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.tech-badge {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .info-toggle-btn {
+    padding: 0.85rem 1rem;
+    font-size: 0.95rem;
+  }
+
+  .info-icon {
+    font-size: 1.3rem;
+  }
+
+  .info-content {
+    padding: 1.5rem;
+  }
+
+  .info-section {
+    padding: 1.25rem;
+  }
+
+  .section-title h3 {
+    font-size: 1.1rem;
+  }
+
+  .title-icon {
+    font-size: 1.5rem;
+  }
+
+  .info-section p,
+  .info-section li {
+    font-size: 0.95rem;
+  }
+
+  .benefits-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  .benefit-card {
+    padding: 0.75rem;
+  }
+
+  .benefit-icon {
+    font-size: 1.5rem;
+  }
+
+  .benefit-card strong {
+    font-size: 0.85rem;
+  }
+
+  .benefit-card p {
+    font-size: 0.75rem;
+  }
+
+  .tech-badge {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .benefits-grid {
+    grid-template-columns: 1fr;
+  }
+}

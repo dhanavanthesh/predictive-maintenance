@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import './Settings.css';
 
-function Settings({ onClose, currentThreshold, onSave }) {
-  const [soundThreshold, setSoundThreshold] = useState(currentThreshold || 400);
+function Settings({ onClose, currentSoundThreshold, currentTempThreshold, currentVibrationThreshold, onSave }) {
+  const [soundThreshold, setSoundThreshold] = useState(currentSoundThreshold || 400);
+  const [tempThreshold, setTempThreshold] = useState(currentTempThreshold || 30);
+  const [vibrationThreshold, setVibrationThreshold] = useState(currentVibrationThreshold || 1);
   const [saved, setSaved] = useState(false);
 
   const handleSave = () => {
-    onSave(soundThreshold);
+    onSave(soundThreshold, tempThreshold, vibrationThreshold);
     setSaved(true);
     setTimeout(() => {
       setSaved(false);
@@ -62,15 +64,82 @@ function Settings({ onClose, currentThreshold, onSave }) {
             </div>
           </div>
 
+          <div className="setting-section">
+            <div className="section-header">
+              <span className="section-icon">🌡️</span>
+              <h3>Temperature Alert Threshold</h3>
+            </div>
+
+            <div className="threshold-control">
+              <label htmlFor="temp-threshold">
+                Alert when temperature exceeds:
+              </label>
+              <div className="input-group">
+                <input
+                  id="temp-threshold"
+                  type="number"
+                  min="0"
+                  max="100"
+                  value={tempThreshold}
+                  onChange={(e) => setTempThreshold(Number(e.target.value))}
+                  className="threshold-input"
+                />
+                <span className="input-unit">°C</span>
+              </div>
+
+              <input
+                type="range"
+                min="0"
+                max="100"
+                value={tempThreshold}
+                onChange={(e) => setTempThreshold(Number(e.target.value))}
+                className="threshold-slider"
+              />
+
+              <div className="threshold-info">
+                <span className="info-label">Current value:</span>
+                <span className="info-value">{tempThreshold}°C</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="setting-section">
+            <div className="section-header">
+              <span className="section-icon">📳</span>
+              <h3>Vibration Alert Threshold</h3>
+            </div>
+
+            <div className="threshold-control">
+              <label htmlFor="vibration-threshold">
+                Alert when vibration detected:
+              </label>
+              <div className="input-group">
+                <select
+                  id="vibration-threshold"
+                  value={vibrationThreshold}
+                  onChange={(e) => setVibrationThreshold(Number(e.target.value))}
+                  className="threshold-input"
+                >
+                  <option value={0}>Disabled (Off)</option>
+                  <option value={1}>Enabled (On)</option>
+                </select>
+              </div>
+
+              <div className="threshold-info">
+                <span className="info-label">Current setting:</span>
+                <span className="info-value">{vibrationThreshold === 1 ? "Enabled" : "Disabled"}</span>
+              </div>
+            </div>
+          </div>
+
           <div className="info-box">
             <div className="info-icon">ℹ️</div>
             <div className="info-text">
-              <strong>Sound Level Guide:</strong>
+              <strong>Sensor Guides:</strong>
               <ul>
-                <li>0-200: Very quiet (normal operation)</li>
-                <li>200-400: Moderate noise</li>
-                <li>400-600: Loud (potential issue)</li>
-                <li>600+: Very loud (immediate attention needed)</li>
+                <li><strong>Sound:</strong> 0-200: Very quiet | 200-400: Moderate | 400-600: Loud | 600+: Very loud</li>
+                <li><strong>Temperature:</strong> 0-25°C: Normal | 25-35°C: Warm | 35-50°C: Hot | 50+°C: Critical</li>
+                <li><strong>Vibration:</strong> 0: No vibration | 1: Vibration detected (Enable alerts to monitor)</li>
               </ul>
             </div>
           </div>

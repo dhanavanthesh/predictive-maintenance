@@ -4,6 +4,7 @@ import SensorCard from './components/SensorCard';
 import ChartCard from './components/ChartCard';
 import Settings from './components/Settings';
 import AlertPopup from './components/AlertPopup';
+import InfoPanel from './components/InfoPanel';
 import './App.css';
 
 const SOCKET_URL = 'http://localhost:5000';
@@ -12,14 +13,22 @@ const MAX_DATA_POINTS = 20;
 function App() {
   const [sensorData, setSensorData] = useState({
     soundLevel: 0,
+    temperature: 0,
+    vibration: 0,
     soundAlert: false,
+    tempAlert: false,
+    vibrationAlert: false,
     timestamp: new Date().toISOString()
   });
 
   const [soundHistory, setSoundHistory] = useState([]);
+  const [temperatureHistory, setTemperatureHistory] = useState([]);
+  const [vibrationHistory, setVibrationHistory] = useState([]);
   const [connected, setConnected] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [soundThreshold, setSoundThreshold] = useState(400);
+  const [tempThreshold, setTempThreshold] = useState(30);
+  const [vibrationThreshold, setVibrationThreshold] = useState(1);
   const [lastAlertState, setLastAlertState] = useState(false);
   const [showAlertPopup, setShowAlertPopup] = useState(false);
 
@@ -42,17 +51,22 @@ function App() {
     socket.on('sensorData', (data) => {
       console.log('[FRONTEND] Received data:', data);
 
-      // Check if sound level exceeds threshold
+      // Check if thresholds are exceeded
       const soundAlert = data.soundLevel > soundThreshold;
+      const tempAlert = data.temperature > tempThreshold;
+      const vibrationAlert = data.vibration >= vibrationThreshold;
+      const anyAlert = soundAlert || tempAlert || vibrationAlert;
 
       setSensorData({
         ...data,
-        soundAlert: soundAlert
+        soundAlert: soundAlert,
+        tempAlert: tempAlert,
+        vibrationAlert: vibrationAlert
       });
 
       // Play alert sound and show popup when threshold is exceeded (only on new alert)
-      if (soundAlert && !lastAlertState) {
-        console.log('[ALERT] Sound threshold exceeded! Triggering alerts...');
+      if (anyAlert && !lastAlertState) {
+        console.log('[ALERT] Threshold exceeded! Triggering alerts...');
 
         // Play beep sound
         alertSound.play().catch(err => {
@@ -64,14 +78,21 @@ function App() {
 
         // Show browser notification if permitted
         if ('Notification' in window && Notification.permission === 'granted') {
-          new Notification('⚠️ Sound Alert!', {
-            body: `Sound level ${data.soundLevel} exceeded threshold ${soundThreshold}`,
+          let alertMessages = [];
+          if (soundAlert) alertMessages.push(`Sound: ${data.soundLevel} (>${soundThreshold})`);
+          if (tempAlert) alertMessages.push(`Temp: ${data.temperature}°C (>${tempThreshold}°C)`);
+          if (vibrationAlert) alertMessages.push(`Vibration detected!`);
+
+          const alertMessage = alertMessages.join(' | ');
+
+          new Notification('⚠️ Sensor Alert!', {
+            body: alertMessage,
             icon: '🔊'
           });
         }
       }
 
-      setLastAlertState(soundAlert);
+      setLastAlertState(anyAlert);
 
       // Update sound history
       setSoundHistory(prev => {
@@ -81,12 +102,30 @@ function App() {
         }];
         return newHistory.slice(-MAX_DATA_POINTS);
       });
+
+      // Update temperature history
+      setTemperatureHistory(prev => {
+        const newHistory = [...prev, {
+          time: new Date(data.timestamp).toLocaleTimeString(),
+          value: data.temperature
+        }];
+        return newHistory.slice(-MAX_DATA_POINTS);
+      });
+
+      // Update vibration history
+      setVibrationHistory(prev => {
+        const newHistory = [...prev, {
+          time: new Date(data.timestamp).toLocaleTimeString(),
+          value: data.vibration
+        }];
+        return newHistory.slice(-MAX_DATA_POINTS);
+      });
     });
 
     return () => {
       socket.disconnect();
     };
-  }, [soundThreshold]);
+  }, [soundThreshold, tempThreshold, vibrationThreshold]);
 
   // Request notification permission on mount
   useEffect(() => {
@@ -97,9 +136,13 @@ function App() {
     }
   }, []);
 
-  const handleSaveSettings = (newThreshold) => {
-    setSoundThreshold(newThreshold);
-    console.log('[SETTINGS] New sound threshold:', newThreshold);
+  const handleSaveSettings = (newSoundThreshold, newTempThreshold, newVibrationThreshold) => {
+    setSoundThreshold(newSoundThreshold);
+    setTempThreshold(newTempThreshold);
+    setVibrationThreshold(newVibrationThreshold);
+    console.log('[SETTINGS] New sound threshold:', newSoundThreshold);
+    console.log('[SETTINGS] New temperature threshold:', newTempThreshold);
+    console.log('[SETTINGS] New vibration threshold:', newVibrationThreshold);
     // Reset alert state when threshold changes
     setLastAlertState(false);
   };
@@ -119,13 +162,21 @@ function App() {
         </div>
       </header>
 
-      {sensorData.soundAlert && (
+      <InfoPanel />
+
+      {(sensorData.soundAlert || sensorData.tempAlert || sensorData.vibrationAlert) && (
         <div className="global-alert-banner">
           <div className="alert-content">
             <span className="alert-icon-large">🚨</span>
             <div className="alert-text">
-              <strong>ALERT: Sound Threshold Exceeded!</strong>
-              <p>Current: {sensorData.soundLevel} dB | Threshold: {soundThreshold} dB</p>
+              <strong>ALERT: Threshold Exceeded!</strong>
+              <p>
+                {sensorData.soundAlert && `Sound: ${sensorData.soundLevel} dB (>${soundThreshold} dB)`}
+                {(sensorData.soundAlert && (sensorData.tempAlert || sensorData.vibrationAlert)) && ' | '}
+                {sensorData.tempAlert && `Temperature: ${sensorData.temperature.toFixed(1)}°C (>${tempThreshold}°C)`}
+                {(sensorData.tempAlert && sensorData.vibrationAlert) && ' | '}
+                {sensorData.vibrationAlert && `Vibration Detected!`}
+              </p>
             </div>
             <span className="alert-icon-large">🚨</span>
           </div>
@@ -142,6 +193,22 @@ function App() {
             alertMessage="Sound level exceeds threshold!"
             icon="🔊"
           />
+          <SensorCard
+            title="Temperature"
+            value={sensorData.temperature.toFixed(1)}
+            unit="°C"
+            alert={sensorData.tempAlert}
+            alertMessage="Temperature exceeds threshold!"
+            icon="🌡️"
+          />
+          <SensorCard
+            title="Vibration"
+            value={sensorData.vibration === 1 ? "DETECTED" : "Normal"}
+            unit=""
+            alert={sensorData.vibrationAlert}
+            alertMessage="Vibration detected!"
+            icon="📳"
+          />
         </div>
 
         <div className="charts-row">
@@ -151,6 +218,20 @@ function App() {
             label="Sound Level"
             color="rgb(54, 162, 235)"
             threshold={soundThreshold}
+          />
+          <ChartCard
+            title="Temperature History"
+            data={temperatureHistory}
+            label="Temperature (°C)"
+            color="rgb(255, 99, 132)"
+            threshold={tempThreshold}
+          />
+          <ChartCard
+            title="Vibration History"
+            data={vibrationHistory}
+            label="Vibration"
+            color="rgb(75, 192, 192)"
+            threshold={vibrationThreshold}
           />
         </div>
 
@@ -162,16 +243,33 @@ function App() {
       {showSettings && (
         <Settings
           onClose={() => setShowSettings(false)}
-          currentThreshold={soundThreshold}
+          currentSoundThreshold={soundThreshold}
+          currentTempThreshold={tempThreshold}
+          currentVibrationThreshold={vibrationThreshold}
           onSave={handleSaveSettings}
         />
       )}
 
       {showAlertPopup && (
         <AlertPopup
-          message="Sound level has exceeded the configured threshold!"
-          currentValue={sensorData.soundLevel}
-          threshold={soundThreshold}
+          message={
+            [sensorData.soundAlert, sensorData.tempAlert, sensorData.vibrationAlert].filter(Boolean).length > 1
+              ? "Multiple sensor thresholds exceeded!"
+              : sensorData.soundAlert
+              ? "Sound level has exceeded the configured threshold!"
+              : sensorData.tempAlert
+              ? "Temperature has exceeded the configured threshold!"
+              : "Vibration has been detected!"
+          }
+          soundValue={sensorData.soundLevel}
+          tempValue={sensorData.temperature}
+          vibrationValue={sensorData.vibration}
+          soundThreshold={soundThreshold}
+          tempThreshold={tempThreshold}
+          vibrationThreshold={vibrationThreshold}
+          soundAlert={sensorData.soundAlert}
+          tempAlert={sensorData.tempAlert}
+          vibrationAlert={sensorData.vibrationAlert}
           onClose={() => setShowAlertPopup(false)}
           autoCloseDelay={8000}
         />

@@ -26,9 +26,10 @@ Instead of waiting for breakdowns (reactive) or servicing on fixed schedules (pr
                     Arduino Uno R3
                   ┌─────────────────┐
                   │                 │
-    DS18B20       │  Digital Pin 2  │────── DATA (with 4.7kΩ to 5V)
-                  │  5V             │────── VCC (both sensors)
-                  │  GND            │────── GND (both sensors)
+    DS18B20       │  Digital Pin 8  │────── DATA (with 4.7kΩ to 5V)
+    SW-420        │  Digital Pin 4  │────── D0 (Vibration)
+                  │  5V             │────── VCC (all sensors)
+                  │  GND            │────── GND (all sensors)
     Sound Sensor  │  Analog Pin A0  │────── A0
                   │                 │
                   └─────────────────┘
@@ -123,12 +124,12 @@ Instead of waiting for breakdowns (reactive) or servicing on fixed schedules (pr
 ARDUINO UNO R3                    SENSORS
 ┌───────────────────┐
 │  DIGITAL PINS     │
-│  ┌────┐           │         DS18B20 (Temperature)
-│  │ D2 │───────────┼─────────→ Data Pin
-│  └────┘           │             (+ 4.7kΩ to 5V)
 │  ┌────┐           │
-│  │ D3 │───────────┼─────────→ SW-420 DO (Vibration)
+│  │ D4 │───────────┼─────────→ SW-420 DO (Vibration)
 │  └────┘           │
+│  ┌────┐           │         DS18B20 (Temperature)
+│  │ D8 │───────────┼─────────→ Data Pin
+│  └────┘           │             (+ 4.7kΩ to 5V)
 │                   │
 │  ANALOG PINS      │
 │  ┌────┐           │
@@ -150,7 +151,7 @@ ARDUINO UNO R3                    SENSORS
 **DS18B20 (Temperature):**
 ```
 Pin 1 (GND)  → Arduino GND
-Pin 2 (Data) → Arduino D2 + 4.7kΩ resistor to 5V
+Pin 2 (Data) → Arduino D8 + 4.7kΩ resistor to 5V
 Pin 3 (VCC)  → Arduino 5V
 ```
 
@@ -162,11 +163,11 @@ AO  → Arduino A0
 DO  → Not connected
 ```
 
-**SW-420 (Vibration):**
+**SW-420 (Vibration) - 3 Pin Version:**
 ```
-VCC → Arduino 5V
-GND → Arduino GND
-DO  → Arduino D3
+VCC/+ → Arduino 5V
+GND/- → Arduino GND
+D0    → Arduino D4 (outputs HIGH when vibration detected)
 ```
 
 ---

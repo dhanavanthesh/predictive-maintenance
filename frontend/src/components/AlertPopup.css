@@ -26,7 +26,7 @@
   background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
   border-radius: 16px;
   width: 90%;
-  max-width: 450px;
+  max-width: 700px;
   max-height: 85vh;
   overflow-y: auto;
   box-shadow: 0 20px 80px rgba(255, 0, 0, 0.8);
@@ -173,6 +173,134 @@
   line-height: 1.4;
 }
 
+/* New grid layout for sensor alerts */
+.alert-values-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.sensor-alert-box {
+  background: linear-gradient(135deg, #fff5f5 0%, #ffe3e3 100%);
+  border: 2px solid #ff6b6b;
+  border-radius: 12px;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: all 0.3s ease;
+  animation: boxPulse 2s infinite;
+}
+
+@keyframes boxPulse {
+  0%, 100% {
+    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.2);
+  }
+  50% {
+    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+  }
+}
+
+.sensor-alert-box:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(255, 107, 107, 0.4);
+}
+
+.sensor-icon {
+  font-size: 2.5rem;
+  flex-shrink: 0;
+  animation: iconBounce 1.5s infinite;
+}
+
+@keyframes iconBounce {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+.sensor-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.sensor-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #495057;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.sensor-values {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #c92a2a;
+  display: flex;
+  align-items: baseline;
+  gap: 0.25rem;
+}
+
+.current-value {
+  color: #ff6b6b;
+  font-size: 1.8rem;
+}
+
+.separator {
+  color: #868e96;
+  font-size: 1.2rem;
+  margin: 0 0.2rem;
+}
+
+.threshold-value {
+  color: #495057;
+  font-size: 1.2rem;
+}
+
+.unit {
+  color: #6c757d;
+  font-size: 0.9rem;
+  margin-left: 0.15rem;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 0.25rem 0.6rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  align-self: flex-start;
+}
+
+.status-badge.exceeded {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+  color: white;
+  animation: badgePulse 1.5s infinite;
+}
+
+.status-badge.detected {
+  background: linear-gradient(135deg, #ff922b 0%, #fd7e14 100%);
+  color: white;
+  animation: badgePulse 1.5s infinite;
+}
+
+@keyframes badgePulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+/* Keep old styles for backwards compatibility */
 .alert-values {
   display: flex;
   align-items: center;
@@ -340,31 +468,58 @@
   .alert-popup {
     width: 95%;
     margin: 10px;
+    max-width: 100%;
   }
 
   .alert-popup-header {
-    padding: 1rem 1.5rem;
+    padding: 0.75rem 1rem;
   }
 
   .alert-popup-header h2 {
-    font-size: 1.3rem;
+    font-size: 1.1rem;
   }
 
   .alert-icon-animated {
-    font-size: 2rem;
+    font-size: 1.5rem;
   }
 
   .alert-popup-body {
-    padding: 1.5rem;
+    padding: 1rem;
   }
 
   .alert-message {
-    flex-direction: column;
-    text-align: center;
+    flex-direction: row;
+    gap: 0.5rem;
+    padding: 0.75rem;
+  }
+
+  .speaker-icon {
+    font-size: 1.5rem;
   }
 
   .message-text {
-    font-size: 1rem;
+    font-size: 0.9rem;
+  }
+
+  .alert-values-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .sensor-alert-box {
+    padding: 0.75rem;
+  }
+
+  .sensor-icon {
+    font-size: 2rem;
+  }
+
+  .sensor-values {
+    font-size: 1.2rem;
+  }
+
+  .current-value {
+    font-size: 1.4rem;
   }
 
   .alert-values {
@@ -376,10 +531,15 @@
   }
 
   .action-item {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
+    padding: 0.5rem;
+  }
+
+  .action-icon {
+    font-size: 1rem;
   }
 
   .alert-popup-footer {
-    padding: 1rem 1.5rem;
+    padding: 0.75rem 1rem;
   }
 }

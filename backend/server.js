@@ -28,10 +28,14 @@ const BAUD_RATE = 9600;
 
 // Thresholds for alerts
 const SOUND_THRESHOLD = 400;
+const TEMP_THRESHOLD = 30; // Temperature threshold in Celsius
+const VIBRATION_THRESHOLD = 1; // Vibration detected (1 = vibration, 0 = no vibration)
 
 // Store latest data
 let latestData = {
   soundLevel: 0,
+  temperature: 0,
+  vibration: 0,
   timestamp: new Date().toISOString()
 };
 
@@ -68,20 +72,28 @@ function initSerialPort() {
         const trimmedLine = line.trim();
 
         // Skip header line or empty lines
-        if (trimmedLine.includes('soundLevel') || trimmedLine === '') {
+        if (trimmedLine.includes('soundLevel') || trimmedLine.includes('temperature') || trimmedLine.includes('vibration') || trimmedLine === '') {
           return;
         }
 
-        const soundLevel = parseFloat(trimmedLine);
+        // Parse CSV format: soundLevel,temperature,vibration
+        const values = trimmedLine.split(',');
+        const soundLevel = parseFloat(values[0]);
+        const temperature = parseFloat(values[1]);
+        const vibration = parseInt(values[2]);
 
-        if (!isNaN(soundLevel)) {
+        if (!isNaN(soundLevel) && !isNaN(temperature) && !isNaN(vibration)) {
           latestData = {
             soundLevel: soundLevel,
+            temperature: temperature,
+            vibration: vibration,
             timestamp: new Date().toISOString(),
-            soundAlert: soundLevel > SOUND_THRESHOLD
+            soundAlert: soundLevel > SOUND_THRESHOLD,
+            tempAlert: temperature > TEMP_THRESHOLD,
+            vibrationAlert: vibration >= VIBRATION_THRESHOLD
           };
 
-          console.log(`[ARDUINO DATA] Sound Level: ${soundLevel}`);
+          console.log(`[ARDUINO DATA] Sound Level: ${soundLevel}, Temperature: ${temperature}°C, Vibration: ${vibration}`);
 
           // Emit to all connected clients
           io.emit('sensorData', latestData);
@@ -122,7 +134,9 @@ app.get('/api/data', (req, res) => {
 // API endpoint to get thresholds
 app.get('/api/thresholds', (req, res) => {
   res.json({
-    sound: SOUND_THRESHOLD
+    sound: SOUND_THRESHOLD,
+    temperature: TEMP_THRESHOLD,
+    vibration: VIBRATION_THRESHOLD
   });
 });
 
