@@ -1,248 +1,258 @@
-.info-panel {
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 0 0 16px 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-  transition: all 0.3s ease;
-  overflow: hidden;
+/* Container */
+.info-panel-container {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
 }
 
-.info-toggle-btn {
+.info-panel-wrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+/* Simple Toggle Button */
+.info-toggle-simple {
   width: 100%;
-  padding: 1rem 2rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 0.75rem 2rem;
+  background: rgba(255, 255, 255, 0.15);
   color: white;
   border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 1rem;
-  font-size: 1rem;
-  font-weight: 600;
-  transition: all 0.3s ease;
+  gap: 0.75rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: background 0.2s ease;
 }
 
-.info-toggle-btn:hover {
-  background: linear-gradient(135deg, #5568d3 0%, #65408b 100%);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+.info-toggle-simple:hover {
+  background: rgba(255, 255, 255, 0.2);
 }
 
-.info-icon {
-  font-size: 1.5rem;
+.info-icon-simple {
+  font-size: 1.2rem;
 }
 
-.info-text {
+.info-text-simple {
   flex: 1;
   text-align: left;
 }
 
-.arrow {
-  font-size: 0.8rem;
+.arrow-simple {
+  font-size: 0.75rem;
   transition: transform 0.3s ease;
 }
 
-.arrow.up {
+.arrow-simple.rotated {
   transform: rotate(180deg);
 }
 
-.info-content {
-  padding: 2rem;
+/* Info Box - Clean and Simple */
+.info-box {
   background: white;
-  color: #333;
-  animation: slideDown 0.4s ease;
+  padding: 2rem;
+  animation: slideDown 0.3s ease;
 }
 
 @keyframes slideDown {
   from {
     opacity: 0;
-    transform: translateY(-20px);
+    max-height: 0;
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    max-height: 1000px;
   }
 }
 
-.info-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-}
-
-.info-section {
-  background: #f8f9fa;
-  padding: 1.5rem;
-  border-radius: 12px;
-  border-left: 4px solid #667eea;
-}
-
-.info-section.highlight {
-  background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
-  border-left: 4px solid #764ba2;
-}
-
-.section-title {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 1rem;
-}
-
-.title-icon {
-  font-size: 1.8rem;
-}
-
-.section-title h3 {
-  margin: 0;
+.info-main-content {
+  max-width: 1200px;
+  margin: 0 auto;
   color: #333;
-  font-size: 1.3rem;
+}
+
+.info-main-content h3 {
+  margin: 0 0 1rem 0;
+  color: #1e3c72;
+  font-size: 1.5rem;
   font-weight: 700;
 }
 
-.info-section p {
-  margin: 0 0 1rem 0;
+.info-description {
+  margin: 0 0 2rem 0;
   line-height: 1.7;
+  font-size: 1.05rem;
   color: #495057;
-  font-size: 1rem;
 }
 
-.info-section p:last-child {
+.info-description strong {
+  color: #1e3c72;
+}
+
+/* Sensors - Simple Grid */
+.sensors-simple {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.sensor-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border-left: 3px solid #1e3c72;
+}
+
+.sensor-icon-simple {
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.sensor-item strong {
+  display: block;
+  color: #333;
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.sensor-item p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #6c757d;
+  line-height: 1.4;
+}
+
+/* Benefits - Simple List */
+.benefits-simple {
+  background: #e8f4f8;
+  padding: 1.25rem 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  border-left: 3px solid #0c5460;
+}
+
+.benefits-simple h4 {
+  margin: 0 0 0.75rem 0;
+  color: #0c5460;
+  font-size: 1.1rem;
+}
+
+.benefits-simple ul {
+  margin: 0;
+  padding-left: 1.25rem;
+  list-style: none;
+}
+
+.benefits-simple li {
+  margin-bottom: 0.5rem;
+  color: #495057;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.benefits-simple li:last-child {
   margin-bottom: 0;
 }
 
-.info-section ul {
-  margin: 1rem 0;
-  padding-left: 1.5rem;
-}
-
-.info-section li {
-  margin-bottom: 0.75rem;
-  line-height: 1.6;
-  color: #495057;
-}
-
-.info-section li strong {
-  color: #333;
-}
-
-.benefits-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
-.benefit-card {
-  background: white;
+/* Technology - Simple Text */
+.tech-simple {
   padding: 1rem;
-  border-radius: 10px;
+  background: #f8f9fa;
+  border-radius: 8px;
   text-align: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-}
-
-.benefit-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
-}
-
-.benefit-icon {
-  font-size: 2rem;
-  display: block;
-  margin-bottom: 0.5rem;
-}
-
-.benefit-card strong {
-  display: block;
-  color: #333;
+  color: #495057;
   font-size: 0.95rem;
-  margin-bottom: 0.35rem;
 }
 
-.benefit-card p {
-  margin: 0;
-  font-size: 0.85rem;
-  color: #6c757d;
-}
-
-.tech-stack {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  margin-top: 1rem;
-}
-
-.tech-badge {
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+.tech-simple strong {
+  color: #333;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .info-toggle-btn {
-    padding: 0.85rem 1rem;
-    font-size: 0.95rem;
+  .info-toggle-simple {
+    padding: 0.65rem 1rem;
+    font-size: 0.9rem;
   }
 
-  .info-icon {
-    font-size: 1.3rem;
-  }
-
-  .info-content {
-    padding: 1.5rem;
-  }
-
-  .info-section {
-    padding: 1.25rem;
-  }
-
-  .section-title h3 {
+  .info-icon-simple {
     font-size: 1.1rem;
   }
 
-  .title-icon {
-    font-size: 1.5rem;
+  .info-box {
+    padding: 1.5rem 1rem;
   }
 
-  .info-section p,
-  .info-section li {
+  .info-main-content h3 {
+    font-size: 1.25rem;
+  }
+
+  .info-description {
     font-size: 0.95rem;
   }
 
-  .benefits-grid {
-    grid-template-columns: repeat(2, 1fr);
+  .sensors-simple {
+    grid-template-columns: 1fr;
     gap: 0.75rem;
   }
 
-  .benefit-card {
-    padding: 0.75rem;
+  .sensor-item {
+    padding: 0.85rem;
   }
 
-  .benefit-icon {
-    font-size: 1.5rem;
+  .sensor-icon-simple {
+    font-size: 1.75rem;
   }
 
-  .benefit-card strong {
+  .sensor-item strong {
+    font-size: 0.95rem;
+  }
+
+  .sensor-item p {
     font-size: 0.85rem;
   }
 
-  .benefit-card p {
-    font-size: 0.75rem;
+  .benefits-simple {
+    padding: 1rem;
   }
 
-  .tech-badge {
-    font-size: 0.75rem;
-    padding: 0.4rem 0.8rem;
+  .benefits-simple h4 {
+    font-size: 1rem;
+  }
+
+  .benefits-simple li {
+    font-size: 0.9rem;
+  }
+
+  .tech-simple {
+    padding: 0.85rem;
+    font-size: 0.85rem;
   }
 }
 
 @media (max-width: 480px) {
-  .benefits-grid {
-    grid-template-columns: 1fr;
+  .info-toggle-simple {
+    padding: 0.6rem 0.85rem;
+    font-size: 0.85rem;
+  }
+
+  .info-box {
+    padding: 1rem 0.75rem;
+  }
+
+  .info-main-content h3 {
+    font-size: 1.1rem;
+  }
+
+  .sensor-item {
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
   }
 }

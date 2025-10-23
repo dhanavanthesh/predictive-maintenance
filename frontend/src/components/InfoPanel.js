@@ -5,101 +5,69 @@ function InfoPanel() {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <div className={`info-panel ${isExpanded ? 'expanded' : ''}`}>
-      <button
-        className="info-toggle-btn"
-        onClick={() => setIsExpanded(!isExpanded)}
-        aria-label="Toggle information panel"
-      >
-        <span className="info-icon">ℹ️</span>
-        <span className="info-text">About Predictive Maintenance</span>
-        <span className={`arrow ${isExpanded ? 'up' : 'down'}`}>▼</span>
-      </button>
+    <div className="info-panel-container">
+      <div className="info-panel-wrapper">
+        <button
+          className="info-toggle-simple"
+          onClick={() => setIsExpanded(!isExpanded)}
+          aria-label="Toggle information panel"
+        >
+          <span className="info-icon-simple">ℹ️</span>
+          <span className="info-text-simple">What is Predictive Maintenance?</span>
+          <span className={`arrow-simple ${isExpanded ? 'rotated' : ''}`}>▼</span>
+        </button>
 
-      {isExpanded && (
-        <div className="info-content">
-          <div className="info-grid">
-            <div className="info-section">
-              <div className="section-title">
-                <span className="title-icon">🎯</span>
-                <h3>What is Predictive Maintenance?</h3>
-              </div>
-              <p>
-                Predictive Maintenance is a proactive maintenance strategy that monitors equipment
-                in real-time to predict failures <strong>BEFORE they occur</strong>. Unlike reactive
-                maintenance (fixing after breakdown) or preventive maintenance (fixed schedules),
-                this system uses sensor data to detect early warning signs of equipment degradation.
+        {isExpanded && (
+          <div className="info-box">
+            <div className="info-main-content">
+              <h3>About This System</h3>
+              <p className="info-description">
+                <strong>Predictive Maintenance</strong> monitors equipment in real-time to predict failures
+                <strong> BEFORE they happen</strong>. This system uses low-cost IoT sensors (Arduino + Sensors under ₹1,200)
+                to continuously track machine health and alert when anomalies are detected.
               </p>
-            </div>
 
-            <div className="info-section">
-              <div className="section-title">
-                <span className="title-icon">🔧</span>
-                <h3>How Does This System Work?</h3>
+              <div className="sensors-simple">
+                <div className="sensor-item">
+                  <span className="sensor-icon-simple">🔊</span>
+                  <div>
+                    <strong>Sound Sensor</strong>
+                    <p>Detects abnormal noise (bearing failure, grinding)</p>
+                  </div>
+                </div>
+                <div className="sensor-item">
+                  <span className="sensor-icon-simple">🌡️</span>
+                  <div>
+                    <strong>Temperature Sensor</strong>
+                    <p>Monitors heat (motor burnout, overheating)</p>
+                  </div>
+                </div>
+                <div className="sensor-item">
+                  <span className="sensor-icon-simple">📳</span>
+                  <div>
+                    <strong>Vibration Sensor</strong>
+                    <p>Identifies shaking (loose parts, misalignment)</p>
+                  </div>
+                </div>
               </div>
-              <p>
-                Our IoT-based system continuously monitors three critical parameters using Arduino
-                and low-cost sensors:
-              </p>
-              <ul>
-                <li><strong>🔊 Sound Level (LM393):</strong> Detects abnormal noise indicating bearing failure, grinding, or mechanical imbalance</li>
-                <li><strong>🌡️ Temperature (DS18B20):</strong> Monitors heat levels to prevent motor burnout and electrical failures</li>
-                <li><strong>📳 Vibration (SW-420):</strong> Identifies excessive shaking caused by loose parts, misalignment, or structural issues</li>
-              </ul>
-            </div>
 
-            <div className="info-section">
-              <div className="section-title">
-                <span className="title-icon">💡</span>
-                <h3>Why Predictive Maintenance?</h3>
+              <div className="benefits-simple">
+                <h4>Benefits:</h4>
+                <ul>
+                  <li>✓ Reduce downtime and prevent breakdowns</li>
+                  <li>✓ Lower maintenance costs</li>
+                  <li>✓ Improve equipment efficiency</li>
+                  <li>✓ Enhance worker safety</li>
+                </ul>
               </div>
-              <div className="benefits-grid">
-                <div className="benefit-card">
-                  <span className="benefit-icon">📉</span>
-                  <strong>Reduce Downtime</strong>
-                  <p>Prevent unexpected breakdowns</p>
-                </div>
-                <div className="benefit-card">
-                  <span className="benefit-icon">💰</span>
-                  <strong>Lower Costs</strong>
-                  <p>Avoid expensive emergency repairs</p>
-                </div>
-                <div className="benefit-card">
-                  <span className="benefit-icon">⚡</span>
-                  <strong>Improve Efficiency</strong>
-                  <p>Maintain only when needed</p>
-                </div>
-                <div className="benefit-card">
-                  <span className="benefit-icon">🛡️</span>
-                  <strong>Enhance Safety</strong>
-                  <p>Early warnings prevent accidents</p>
-                </div>
-              </div>
-            </div>
 
-            <div className="info-section highlight">
-              <div className="section-title">
-                <span className="title-icon">🎓</span>
-                <h3>Project Objective</h3>
-              </div>
-              <p>
-                This system demonstrates an <strong>affordable, accessible IoT solution</strong> for
-                small-to-medium industries that cannot afford expensive industrial monitoring systems.
-                Using Arduino Uno and sensors costing under ₹1,200, we provide real-time monitoring,
-                instant alerts (voice, visual, browser notifications), and historical data visualization
-                to enable condition-based maintenance decisions.
-              </p>
-              <div className="tech-stack">
-                <span className="tech-badge">Arduino Uno</span>
-                <span className="tech-badge">Node.js + Express</span>
-                <span className="tech-badge">React.js</span>
-                <span className="tech-badge">Socket.IO</span>
-                <span className="tech-badge">Chart.js</span>
+              <div className="tech-simple">
+                <strong>Technology:</strong> Arduino Uno • Node.js • React • Socket.IO • Chart.js
               </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }
